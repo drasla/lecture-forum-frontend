@@ -6,6 +6,10 @@ export type ButtonVariantType = "contained" | "text" | "icon";
 
 const StyledButton = styled.button<{ $color: ButtonColorType; $variant: ButtonVariantType; $fullWidth?: boolean; }>`
     width: ${props => props.$fullWidth ? "100%" : "auto"};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: ${props => props.$variant === "icon" ? "1" : "auto"};
     font-size: 14px;
     font-weight: 600;
     color: ${props => (props.$variant === "contained" ? "#ffffff" : "inherit")};
