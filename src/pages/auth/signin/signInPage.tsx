@@ -59,7 +59,7 @@ function SignInPage() {
 
             setError("root", { message: errorMessage });
         }
-    }
+    };
 
     return (
         <AuthContainer>
