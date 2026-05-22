@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import { Role, type User } from "../../types/user.type.ts";
-import adminUserApi from "../../api/admin/user/adminUserApi.ts";
 import {
     AdminContainer,
     AdminLoadingText,
@@ -10,11 +8,13 @@ import {
     AdminTd,
     AdminTh,
     AdminTitle,
-} from "../../components/admin/admin.style.tsx";
-import Button from "../../components/common/button/Button.tsx";
+} from "../../../components/admin/admin.style.tsx";
+import Button from "../../../components/common/button/Button.tsx";
+import Card from "../../../components/common/card/Card.tsx";
+import Badge from "../../../components/common/badge/Badge.tsx";
 import { Link } from "react-router";
-import Card from "../../components/common/card/Card.tsx";
-import Badge from "../../components/common/badge/Badge.tsx";
+import { Role, type User } from "../../../types/user.type.ts";
+import adminUserApi from "../../../api/admin/user/adminUserApi.ts";
 
 function AdminUserListPage() {
     const [list, setList] = useState<User[]>([]);
