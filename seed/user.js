@@ -29,6 +29,7 @@ const BASE_URL = process.env.VITE_API_BASE_URL;
 const API_URL = BASE_URL + "/admin/user/create";
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN;
 
+
 async function generateUsers(count) {
     // 들어온 매개변수 count 만큼 회원 생성 요청을 백엔드에게 보내야 함
     for (let i = 0; i < count; i++) {
