@@ -17,6 +17,7 @@ import { Link, useSearchParams } from "react-router";
 import { Role, type User } from "../../../types/user.type.ts";
 import adminUserApi from "../../../api/admin/user/adminUserApi.ts";
 import { FiEdit, FiTrash } from "react-icons/fi";
+import Pagination from "../../../components/common/pagination/Pagination.tsx";
 
 function AdminUserListPage() {
     const [list, setList] = useState<User[]>([]);
@@ -25,7 +26,7 @@ function AdminUserListPage() {
     const [searchParams, setSearchParams] = useSearchParams();
     // const pageParams = searchParams.get("page");
     // const page = pageParams ? Number(pageParams) : 1;
-    const page = Number(searchParams.get("page")) || 1;          // 이것 자체가 state임
+    const page = Number(searchParams.get("page")) || 1; // 이것 자체가 state임
 
     const SIZE = 20;
     const [total, setTotal] = useState(0);
@@ -95,8 +96,8 @@ function AdminUserListPage() {
     const handlePageChange = (page: number) => {
         // state의 값을 바로 바꾸는게 아니라,
         // 쿼리스트링에 존재하는 page의 값을 변경해야 함
-        searchParams.set("page", page.toString());    // searchParams 내부의 page 프로퍼티 값을 변경
-        setSearchParams(searchParams);                // 주소 변경
+        searchParams.set("page", page.toString()); // searchParams 내부의 page 프로퍼티 값을 변경
+        setSearchParams(searchParams); // 주소 변경
     };
 
     return (
@@ -186,29 +187,11 @@ function AdminUserListPage() {
                 )}
 
                 {total > 0 && (
-                    <div
-                        style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            gap: "10px",
-                            marginTop: "20px",
-                        }}>
-                        <Button
-                            variant={"text"}
-                            color={"primary"}
-                            disabled={page === 1}
-                            onClick={() => handlePageChange(page - 1)}>
-                            이전
-                        </Button>
-                        <Button
-                            variant={"text"}
-                            color={"primary"}
-                            disabled={page === totalPage}
-                            onClick={() => handlePageChange(page + 1)}>
-                            다음
-                        </Button>
-                    </div>
+                    <Pagination
+                        currentPage={page}
+                        totalPage={totalPage}
+                        onPageChange={handlePageChange}
+                    />
                 )}
             </Card>
         </AdminContainer>

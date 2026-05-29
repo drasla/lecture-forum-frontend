@@ -110,7 +110,7 @@ export const BoardTh = styled.th<{ $width?: string; }>`
     width: ${props => props.$width || "auto"}
 `;
 
-export const BoardTd = styled.td<{ $align?: "left" | "center" | "right"}>`
+export const BoardTd = styled.td<{ $align?: "left" | "center" | "right" }>`
     padding: 16px;
     font-size: 15px;
     text-align: ${props => props.$align || "center"};

@@ -81,4 +81,4 @@ async function generateUsers(count) {
     }
 }
 
-generateUsers(3).then(() => {});
+generateUsers(300).then(() => {});
