@@ -21,6 +21,10 @@ import AdminNoticeDetailPage from "../pages/admin/notice/detail/AdminNoticeDetai
 import AdminNoticeUpdatePage from "../pages/admin/notice/update/AdminNoticeUpdatePage.tsx";
 import NoticeListPage from "../pages/notice/NoticeListPage.tsx";
 import NoticeDetailPage from "../pages/notice/detail/NoticeDetailPage.tsx";
+import AdminInquiryListPage from "../pages/admin/inquiry/AdminInquiryListPage.tsx";
+import MyLayout from "../layouts/MyLayout.tsx";
+import MyInfoPage from "../pages/my/info/MyInfoPage.tsx";
+import MyInquiryListPage from "../pages/my/inquiry/MyInquiryListPage.tsx";
 
 // 회원의 권한에 따라 접근할 수 있는 주소를 판별하기 위해서
 // react-router 라이브러리에서는 "로더(loader)"라는 기능을 제공함
@@ -99,6 +103,14 @@ const router = createBrowserRouter([
                     { path: ":id", element: <NoticeDetailPage /> },
                 ],
             },
+            {
+                path: "my",
+                element: <MyLayout />,
+                children: [
+                    { index: true, element: <MyInfoPage /> },
+                    { path: "inquiry", element: <MyInquiryListPage /> },
+                ],
+            },
         ],
     },
     {
@@ -132,6 +144,10 @@ const router = createBrowserRouter([
                     { path: ":id", element: <AdminNoticeDetailPage /> },
                     { path: "update/:id", element: <AdminNoticeUpdatePage /> },
                 ],
+            },
+            {
+                path: "inquiry",
+                children: [{ index: true, element: <AdminInquiryListPage /> }],
             },
         ],
     },
