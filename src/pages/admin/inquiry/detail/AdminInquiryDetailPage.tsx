@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { Inquiry } from "../../../../types/inquiry.type.ts";
 import adminInquiryApi from "../../../../api/admin/adminInquiryApi.ts";
 import {
@@ -24,22 +24,39 @@ function AdminInquiryDetailPage() {
     const { id } = useParams<{ id: string }>();
     const inquiryId = Number(id);
 
-    useEffect(() => {
-        const loadInquiry = async () => {
-            try {
-                const data = await adminInquiryApi.getInquiryById(inquiryId);
-                setInquiry(data);
-            } catch (error) {
-                console.log(error);
-                alert("게시글을 불러오는데 오류가 발생되었습니다.");
-                navigate(-1);
-            } finally {
-                setIsLoading(false);
-            }
-        };
+    // useCallback() : React에서 제공하는 기능
+    // loadInquiry는 useEffect 안에 있을 때는 계속 새로운 애가 생성되는건데
+    // 밖으로 뺐기 때문에 loadInquiry 애는 유일한 애가 되었음
+    // useCallback은 불러낼 때 이 안에 넣은 함수가 재생성되는걸 결정하는 의존성 배열
 
-        loadInquiry().then(() => {});
+    // useEffect : 초기 렌더링이 끝난 이후에 1회 무조건 실행
+    //             의존성 배열에 존재하는 값이 변경이 될 경우, 재실행
+
+    // useCallback : 최초에 함수가 생성되어 메모리에 저장
+    //               의존성 배열에 존재하는 값이 변경이 될 경우, 함수를 재생성
+
+    // loadInquiry라고 작성한 함수는, AdminInquiryDetailPage(부모 컴포넌트)가
+    // 화면에 출력이 될 때 완성상태로 메모리에 적재되고
+    // 그걸 계속 useEffect가 불러와서 쓰게 됨  -> 뭔가 상황이 바뀌었다는 걸 의미
+    // useCallback으로, 상황이 바뀐걸 반영해서 함수를 재생성해달라고 씀
+
+    const loadInquiry = useCallback(async () => {
+        try {
+            const data = await adminInquiryApi.getInquiryById(inquiryId);
+            setInquiry(data);
+        } catch (error) {
+            console.log(error);
+            alert("게시글을 불러오는데 오류가 발생되었습니다.");
+            navigate(-1);
+        } finally {
+            setIsLoading(false);
+        }
     }, [inquiryId, navigate]);
+
+    useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        loadInquiry().then(() => {});
+    }, [inquiryId, loadInquiry, navigate]);
 
     if (isLoading) {
         return (
@@ -73,9 +90,9 @@ function AdminInquiryDetailPage() {
                 */}
                 <AnswerSection>
                     {inquiry.answer ? (
-                        <AdminInquiryAnswerBox />
+                        <AdminInquiryAnswerBox inquiry={inquiry} reload={loadInquiry} />
                     ) : (
-                        <AdminInquiryAnswerForm inquiryId={inquiryId} />
+                        <AdminInquiryAnswerForm inquiryId={inquiryId} reload={loadInquiry}/>
                     )}
                 </AnswerSection>
 
