@@ -7,13 +7,15 @@ import {
 } from "../admin/admin.style.tsx";
 import Button from "../common/button/Button.tsx";
 import adminInquiryApi from "../../api/admin/adminInquiryApi.ts";
+import type { Dispatch, SetStateAction } from "react";
 
 interface Props {
     inquiry: Inquiry;
     reload: () => Promise<void>;
+    setIsEdit: Dispatch<SetStateAction<boolean>>;
 }
 
-function AdminInquiryAnswerBox({ inquiry, reload }: Props) {
+function AdminInquiryAnswerBox({ inquiry, reload, setIsEdit }: Props) {
     const handleDeleteAnswer = async () => {
         try {
             await adminInquiryApi.deleteInquiryAnswer(inquiry.id);
@@ -37,7 +39,7 @@ function AdminInquiryAnswerBox({ inquiry, reload }: Props) {
             <AnswerContent className={"answer-content"}>{inquiry.answer}</AnswerContent>
 
             <AdminButtonGroup $align={"right"} style={{ marginTop: "24px" }}>
-                <Button variant={"contained"} color={"warning"}>
+                <Button variant={"contained"} color={"warning"} onClick={() => setIsEdit(true)}>
                     답변 수정
                 </Button>
                 <Button variant={"contained"} color={"error"} onClick={handleDeleteAnswer}>

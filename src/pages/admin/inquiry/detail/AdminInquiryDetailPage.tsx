@@ -20,6 +20,7 @@ function AdminInquiryDetailPage() {
     const navigate = useNavigate();
     const [inquiry, setInquiry] = useState<Inquiry | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [isEdit, setIsEdit] = useState(false);
 
     const { id } = useParams<{ id: string }>();
     const inquiryId = Number(id);
@@ -89,25 +90,25 @@ function AdminInquiryDetailPage() {
                             답변이 이미 달렸다면 답변 내용이 출력될 수 있도록 함
                 */}
                 <AnswerSection>
-                    {inquiry.answer ? (
-                        <AdminInquiryAnswerBox inquiry={inquiry} reload={loadInquiry} />
+                    {inquiry.answer && !isEdit ? (
+                        <AdminInquiryAnswerBox
+                            inquiry={inquiry}
+                            reload={loadInquiry}
+                            setIsEdit={setIsEdit}
+                        />
                     ) : (
-                        <AdminInquiryAnswerForm inquiryId={inquiryId} reload={loadInquiry}/>
+                        <AdminInquiryAnswerForm
+                            inquiry={inquiry}
+                            reload={loadInquiry}
+                            isEdit={isEdit}
+                            setIsEdit={setIsEdit}
+                        />
                     )}
                 </AnswerSection>
 
                 <AdminButtonGroup style={{ marginTop: "40px" }}>
                     <Button color={"secondary"} variant={"contained"} onClick={() => navigate(-1)}>
                         목록으로
-                    </Button>
-                    <Button
-                        color={"warning"}
-                        variant={"contained"}
-                        onClick={() => navigate(`/admin/inquiry/update/${inquiry.id}`)}>
-                        수정
-                    </Button>
-                    <Button color={"error"} variant={"contained"}>
-                        삭제
                     </Button>
                 </AdminButtonGroup>
             </DetailWrapper>
