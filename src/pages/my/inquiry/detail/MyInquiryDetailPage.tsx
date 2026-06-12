@@ -11,10 +11,8 @@ import {
     LoadingText,
     PostContainer,
 } from "../../../../components/post/post.style.tsx";
-import PostVote from "../../../../components/post/PostVote.tsx";
 import { AdminButtonGroup } from "../../../../components/admin/admin.style.tsx";
 import Button from "../../../../components/common/button/Button.tsx";
-import PostReply from "../../../../components/post/PostReply.tsx";
 
 function MyInquiryDetailPage() {
     const { inquiryId } = useParams<{ inquiryId: string }>();
